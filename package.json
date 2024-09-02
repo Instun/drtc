@@ -1,0 +1,20 @@
+{
+  "name": "@instun/drtc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "browser": "lib/web.js",
+  "repository": "",
+  "scripts": {
+    "build": "esbuild test/client.js --bundle --outfile=test/web.js"
+  },
+  "keywords": "",
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.0"
+  }
+}
