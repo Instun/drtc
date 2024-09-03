@@ -41,9 +41,9 @@ async function tests() {
         fingerprint: cert.fingerprint
     });
 
-    await test_rtc(`drtc://127.0.0.1:60916#${cert.fingerprint}`);
-    await test_rtc(`drtc://localhost:60916#${cert.fingerprint}`);
-    await test_rtc(`drtc://[::1]:60916#${cert.fingerprint}`);
+    await test_rtc(`drtc://127.0.0.1:60916/${cert.fingerprint}`);
+    await test_rtc(`drtc://localhost:60916/${cert.fingerprint}`);
+    await test_rtc(`drtc://[::1]:60916/${cert.fingerprint}`);
 }
 
 tests();
