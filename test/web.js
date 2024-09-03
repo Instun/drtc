@@ -24,7 +24,7 @@
         }
         let ip = match[1];
         const port = parseInt(match[2]);
-        const fingerprint = match[4];
+        const fingerprint = match[3];
         if (ip.startsWith("[") && ip.endsWith("]"))
           ip = ip.slice(1, -1);
         return { ip, port, fingerprint };
@@ -105,15 +105,24 @@ a=candidate:1467250027 1 UDP 1467250027 ${ip} ${port} typ host\r
     const promise = new Promise((resolve, reject) => {
       console.log("connecting to:", options);
       const { channel, connection } = drtc.connect(options);
-      connection.onconnectionstatechange = (_) => {
+      connection.addEventListener("connectionstatechange", (_) => {
         console.log("state", connection.connectionState);
-      };
-      channel.onopen = (_) => {
+      });
+      channel.addEventListener("open", (_) => {
         console.log("Data channel opened");
         channel.send("hello");
-      };
-      channel.onmessage = function(ev) {
-        console.log("message:", ev.data);
+      });
+      channel.addEventListener("closing", (_) => {
+        console.log("Data channel closing");
+      });
+      channel.addEventListener("close", (_) => {
+        console.log("Data channel closed");
+      });
+      channel.addEventListener("error", function(ev) {
+        console.log("Data channel error:", ev);
+      });
+      channel.addEventListener("message", function(ev) {
+        console.log("Data channel message:", ev.data);
         if (ev.data === "world") {
           console.log("===================================");
           connection.close();
@@ -122,7 +131,7 @@ a=candidate:1467250027 1 UDP 1467250027 ${ip} ${port} typ host\r
           setTimeout(() => {
             channel.send("world");
           }, 1e3);
-      };
+      });
     });
     return promise;
   }
@@ -132,9 +141,9 @@ a=candidate:1467250027 1 UDP 1467250027 ${ip} ${port} typ host\r
       port: 60916,
       fingerprint: cert.fingerprint
     });
-    await test_rtc(`drtc://127.0.0.1:60916#${cert.fingerprint}`);
-    await test_rtc(`drtc://localhost:60916#${cert.fingerprint}`);
-    await test_rtc(`drtc://[::1]:60916#${cert.fingerprint}`);
+    await test_rtc(`drtc://127.0.0.1:60916/${cert.fingerprint}`);
+    await test_rtc(`drtc://localhost:60916/${cert.fingerprint}`);
+    await test_rtc(`drtc://[::1]:60916/${cert.fingerprint}`);
   }
   tests();
 })();

@@ -7,17 +7,29 @@ function test_rtc(options) {
 
         const { channel, connection } = drtc.connect(options);
 
-        connection.onconnectionstatechange = (_) => {
+        connection.addEventListener("connectionstatechange", (_) => {
             console.log('state', connection.connectionState);
-        };
+        });
 
-        channel.onopen = (_) => {
+        channel.addEventListener("open", (_) => {
             console.log('Data channel opened');
             channel.send('hello');
-        };
+        });
 
-        channel.onmessage = function (ev) {
-            console.log('message:', ev.data);
+        channel.addEventListener("closing", (_) => {
+            console.log('Data channel closing');
+        });
+
+        channel.addEventListener("close", (_) => {
+            console.log('Data channel closed');
+        });
+
+        channel.addEventListener("error", function (ev) {
+            console.log('Data channel error:', ev);
+        });
+
+        channel.addEventListener("message", function (ev) {
+            console.log('Data channel message:', ev.data);
 
             if (ev.data === 'world') {
                 console.log('===================================');
@@ -28,7 +40,7 @@ function test_rtc(options) {
                 setTimeout(() => {
                     channel.send('world');
                 }, 1000);
-        }
+        });
     });
 
     return promise;

@@ -7,12 +7,12 @@ drtc.listen({
 }, function (channel) {
     console.log('accept', `${channel.remoteAddress}:${channel.remotePort}`);
 
-    channel.onmessage = function (ev) {
+    channel.addEventListener("message", function (ev) {
         console.log('message:', ev.data);
         channel.send(ev.data);
-    }
+    });
 
-    channel.onclose = (_) => {
+    channel.addEventListener("close", (_) => {
         console.log('Data channel closed');
-    };
+    });
 });
