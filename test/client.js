@@ -46,8 +46,4 @@ async function tests() {
     await test_rtc(`drtc://[::1]:60916/${cert.fingerprint}`);
 }
 
-process.on('beforeExit', () => {
-    console.log('beforeExit');
-});
-
 tests();

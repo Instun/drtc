@@ -350,8 +350,5 @@ a=candidate:1467250027 1 UDP 1467250027 ${ip} ${port} typ host\r
     await test_rtc(`drtc://localhost:60916/${cert.fingerprint}`);
     await test_rtc(`drtc://[::1]:60916/${cert.fingerprint}`);
   }
-  process.on("beforeExit", () => {
-    console.log("beforeExit");
-  });
   tests();
 })();
