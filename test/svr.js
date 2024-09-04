@@ -4,15 +4,15 @@ const cert = require('./cert.json');
 drtc.listen({
     port: 60916,
     key: cert.key, cert: cert.cert
-}, function (channel) {
-    console.log('accept', `${channel.remoteAddress}:${channel.remotePort}`);
+}, function (connection) {
+    console.log('=================> accept', `${connection.remoteAddress}:${connection.remotePort}`);
 
-    channel.addEventListener("message", function (ev) {
-        console.log('message:', ev.data);
-        channel.send(ev.data);
+    connection.addEventListener("message", function (ev) {
+        console.log('received', ev.data);
+        connection.send(ev.data);
     });
 
-    channel.addEventListener("close", (_) => {
-        console.log('Data channel closed');
+    connection.addEventListener("close", (_) => {
+        console.log('connection closed');
     });
 });

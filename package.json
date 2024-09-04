@@ -1,10 +1,10 @@
 {
   "name": "@instun/drtc",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "",
   "main": "lib/index.js",
   "browser": "lib/web.js",
-  "repository": "",
+  "repository": "https://github.com/Instun/drtc",
   "scripts": {
     "build": "esbuild test/client.js --bundle --outfile=test/web.js"
   },
@@ -16,5 +16,8 @@
   },
   "devDependencies": {
     "esbuild": "^0.23.0"
+  },
+  "dependencies": {
+    "@instun/rtc-dc": "^1.0.0"
   }
 }
