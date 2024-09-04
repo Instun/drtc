@@ -243,17 +243,18 @@
           ip = ip.slice(1, -1);
         return { ip, port, fingerprint };
       }
-      module.exports = function(RTCPeerConnection2) {
-        return function(options) {
-          if (typeof options === "string")
-            options = parse_url(options);
-          var { ip, port, fingerprint } = options;
-          const ufrag = "webrtc+direct+v1/" + genUfrag(16);
-          const family = ip.indexOf(":") >= 0 ? "IP6" : "IP4";
-          fingerprint = fingerprint.match(/.{1,2}/g).join(":").toUpperCase();
-          var answerSdp = {
-            "type": "answer",
-            "sdp": `v=0\r
+      module.exports = function(options, Connection) {
+        if (Connection === void 0)
+          Connection = RTCPeerConnection;
+        if (typeof options === "string")
+          options = parse_url(options);
+        var { ip, port, fingerprint } = options;
+        const ufrag = "webrtc+direct+v1/" + genUfrag(16);
+        const family = ip.indexOf(":") >= 0 ? "IP6" : "IP4";
+        fingerprint = fingerprint.match(/.{1,2}/g).join(":").toUpperCase();
+        var answerSdp = {
+          "type": "answer",
+          "sdp": `v=0\r
 o=- 0 0 IN ${family} ${ip}\r
 s=-\r
 c=IN ${family} ${ip}\r
@@ -269,25 +270,24 @@ a=sctp-port:5000\r
 a=max-message-size:16384\r
 a=candidate:1467250027 1 UDP 1467250027 ${ip} ${port} typ host\r
 `
-          };
-          const connection = new RTCPeerConnection2({
-            iceUfrag: ufrag,
-            icePwd: ufrag,
-            maxMessageSize: 16384
-          });
-          const channel = connection.createDataChannel("dc");
-          connection.createOffer().then((offerSdp) => {
-            const mungedOfferSdp = munge(offerSdp, ufrag);
-            connection.setLocalDescription(mungedOfferSdp);
-            connection.setRemoteDescription(answerSdp);
-          }).catch((e) => {
-            console.error(e);
-          });
-          return new Peer({
-            channel,
-            connection
-          });
         };
+        const connection = new Connection({
+          iceUfrag: ufrag,
+          icePwd: ufrag,
+          maxMessageSize: 16384
+        });
+        const channel = connection.createDataChannel("dc");
+        connection.createOffer().then((offerSdp) => {
+          const mungedOfferSdp = munge(offerSdp, ufrag);
+          connection.setLocalDescription(mungedOfferSdp);
+          connection.setRemoteDescription(answerSdp);
+        }).catch((e) => {
+          console.error(e);
+        });
+        return new Peer({
+          channel,
+          connection
+        });
       };
     }
   });
@@ -296,7 +296,7 @@ a=candidate:1467250027 1 UDP 1467250027 ${ip} ${port} typ host\r
   var require_web = __commonJS({
     "lib/web.js"(exports, module) {
       module.exports = {
-        connect: require_client()(RTCPeerConnection)
+        connect: require_client()
       };
     }
   });
