@@ -222,7 +222,7 @@
     "lib/client.js"(exports, module) {
       var Peer = require_rtc_dc();
       var charset = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/");
-      var genUfrag = (len) => [...Array(len)].map(() => charset.at(Math.floor(Math.random() * charset.length))).join("");
+      var genUfrag = (len) => [...Array(len)].fill().map(() => charset.at(Math.floor(Math.random() * charset.length))).join("");
       function munge(desc, ufrag) {
         if (desc.sdp === void 0) {
           throw invalidArgument("Can't munge a missing SDP");
