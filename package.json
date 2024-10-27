@@ -1,14 +1,30 @@
 {
   "name": "@instun/drtc",
-  "version": "1.3.1",
-  "description": "",
+  "version": "1.4.0",
+  "description": "Simplifies the process of establishing secure WebRTC Direct data channels for real-time peer-to-peer communication.",
   "main": "lib/index.js",
   "browser": "lib/web.js",
   "repository": "https://github.com/Instun/drtc",
   "scripts": {
     "build": "esbuild test/client.js --bundle --outfile=test/web.js"
   },
-  "keywords": "",
+  "keywords": [
+    "webrtc",
+    "peer-to-peer",
+    "p2p",
+    "real-time",
+    "communication",
+    "data channels",
+    "dtls",
+    "secure",
+    "event-driven",
+    "ice",
+    "sdp",
+    "nodejs",
+    "cross-platform",
+    "rtc",
+    "direct"
+  ],
   "author": "",
   "license": "MIT",
   "publishConfig": {
