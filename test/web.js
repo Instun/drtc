@@ -194,6 +194,8 @@
           });
           this.channel.addEventListener("close", close);
           this.channel.addEventListener("error", close);
+          this.connection.addEventListener("close", close);
+          this.connection.addEventListener("error", close);
           this.channel.addEventListener("open", function() {
             This.emit("open");
           });
@@ -211,6 +213,8 @@
           this.channel.send(data);
         }
         close() {
+          this.emit("close");
+          this.channel.close();
           this.connection.close();
         }
       };

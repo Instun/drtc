@@ -1,6 +1,6 @@
 {
   "name": "@instun/drtc",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Simplifies the process of establishing secure WebRTC Direct data channels for real-time peer-to-peer communication.",
   "main": "lib/index.js",
   "browser": "lib/web.js",
@@ -31,9 +31,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "esbuild": "^0.23.0"
+    "esbuild": "^0.23.1"
   },
   "dependencies": {
-    "@instun/rtc-dc": "^1.0.0"
+    "@instun/rtc-dc": "^1.0.1"
   }
 }
